@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Benevolat{% endblock %}
+
+{% block body %}
+    <h1>Create new Benevolat</h1>
+
+    {{ include('benevolat/_form.html.twig') }}
+
+    <a href="{{ path('app_benevolat_index') }}">back to list</a>
+{% endblock %}

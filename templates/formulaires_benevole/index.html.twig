@@ -1,14 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('styles/crud.css') }}">
-{% endblock %}
-
 {% block title %}Formulaires index{% endblock %}
 
-{% block main %}
+{% block body %}
     <h1>Formulaires index</h1>
-
 
     <table class="table">
         <thead>
@@ -23,6 +18,9 @@
                 <th>Code_postal_formulaire</th>
                 <th>Ville_formulaire</th>
                 <th>Pays_formulaire</th>
+                <th>Nombre_participants_formulaire</th>
+                <th>Nom_facturation_formulaire</th>
+                <th>actions</th>
             </tr>
         </thead>
         <tbody>
@@ -39,21 +37,19 @@
                 <td>{{ formulaire.villeFormulaire }}</td>
                 <td>{{ formulaire.paysFormulaire }}</td>
                 <td>{{ formulaire.nombreParticipantsFormulaire }}</td>
+                <td>{{ formulaire.nomFacturationFormulaire }}</td>
                 <td>
-                    <a href="{{ path('app_formulaires_evenementiel_show', {'id': formulaire.id}) }}">show</a>
-                    <a href="{{ path('app_formulaires_evenementiel_edit', {'id': formulaire.id}) }}">edit</a>
+                    <a href="{{ path('app_formulaires_benevole_show', {'id': formulaire.id}) }}">show</a>
+                    <a href="{{ path('app_formulaires_benevole_edit', {'id': formulaire.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="11">no records found</td>
+                <td colspan="13">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-
-    <a href="{{ path('app_formulaires_evenementiel_new') }}">Create new</a>
-
-    {% include 'components/carousel.html.twig'%}
+    <a href="{{ path('app_formulaires_benevole_new') }}">Create new</a>
 {% endblock %}

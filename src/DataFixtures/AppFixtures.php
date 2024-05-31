@@ -17,8 +17,8 @@ class AppFixtures extends Fixture
     {
 
 
-        // //Creation d'utilisateurs
-        // $adminUser = $this->createUtilisateurs("admin@refuge.com",["ROLE_ADMIN"], "123456789", "Rusch",  "Juelin", "0745321695",  $manager);
+        //Creation d'utilisateurs
+        $adminUser = $this->createUtilisateurs("admin@refuge.com",["ROLE_ADMIN"], "123456789", "Rusch",  "Juelin", "0745321695",  $manager);
 
 
         // //Création du planning
@@ -114,22 +114,22 @@ class AppFixtures extends Fixture
 
     }
 
-    // public function createUtilisateurs($Email, $arrRoles, $Password, $Nom, $Prenom, $Telephone,  ObjectManager $manager): Utilisateurs
-    // {
-    //     $user = new Utilisateurs();
-    //     $user->setEmail($Email);
-    //     $user->setRoles($arrRoles);
-    //     $user->setPassword(password_hash($Password, PASSWORD_BCRYPT));
-    //     $user->setNomUtilisateur($Nom);
-    //     $user->setPrenomUtilisateur($Prenom);
-    //     $user->setNumeroTelephoneUtilisateur($Telephone);
+    public function createUtilisateurs($Email, $arrRoles, $Password, $Nom, $Prenom, $Telephone,  ObjectManager $manager): Utilisateurs
+    {
+        $user = new Utilisateurs();
+        $user->setEmail($Email);
+        $user->setRoles($arrRoles);
+        $user->setPassword(password_hash($Password, PASSWORD_BCRYPT));
+        $user->setNomUtilisateur($Nom);
+        $user->setPrenomUtilisateur($Prenom);
+        $user->setNumeroTelephoneUtilisateur($Telephone);
 
 
-    //     $manager->persist($user);
+        $manager->persist($user);
 
-    //     // $this->setReference('utilisateurs-' . $this->counter, $user);
-    //     // $this->counter++;
+        // $this->setReference('utilisateurs-' . $this->counter, $user);
+        // $this->counter++;
         
-    //     return $user;
-    // }
+        return $user;
+    }
 }

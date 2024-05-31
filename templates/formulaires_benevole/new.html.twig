@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formulaire de réservation{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/calendar.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/popover.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/carousel.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <h2>Formulaire de réservation</h2>
+        {{ form_start(form) }}
+        {{ form_row(form.nom_formulaire) }}
+        {{ form_row(form.prenom_formulaire) }}
+        {{ form_row(form.telephone_formulaire) }}
+        {{ form_row(form.email_formulaire) }}
+        <button type="submit" class="btn btn-primary">Valider</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

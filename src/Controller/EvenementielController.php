@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Formulaires;
-use App\Form\FormulairesType; // N'oubliez pas d'ajouter le use pour le formulaire
+use App\Form\FormulairesEvenementielType;
 use App\Repository\CalendrierRepository;
 use App\Repository\PensionnairesRepository;
 use App\Service\ReservationService;
@@ -57,7 +57,7 @@ class EvenementielController extends AbstractController
 
         // Crée une nouvelle réservation
         $reservation = new Formulaires();
-        $form = $this->createForm(FormulairesType::class, $reservation);
+        $form = $this->createForm(FormulairesEvenementielType::class, $reservation);
         $form->handleRequest($request);
     
         // Vérifie si le formulaire a été soumis et est valide

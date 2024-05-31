@@ -2,86 +2,80 @@
 
 namespace App\Controller;
 
-use App\Entity\Jours;
-use App\Entity\Heures;
-use App\Entity\Reservations;
-use App\Form\ReservationBenevoleType;
-use App\Repository\CalendrierRepository;
-use App\Repository\PensionnairesRepository;
-use App\Service\ReservationService;
+use App\Entity\Benevolat;
+use App\Form\BenevolatType;
+use App\Repository\BenevolatRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/benevolat')]
 class BenevolatController extends AbstractController
 {
-    #[Route('/benevolat', name: 'app_benevolat')]
-    public function index(PensionnairesRepository $pensionnairesRepository,CalendrierRepository $calendrierRepo,
-    ReservationService $reservationService): Response {
-        
-        //récupère les informations évènements depuis le répository
-        $events = $calendrierRepo->findAll();
-        //Déclare un tableau évènements vide
-        $evts = [];
-// Transforme les données des événements pour les rendre compatibles avec l'affichage
-        foreach ($events as $event) {
-        
-            // Stockez les informations de l'événement avec les informations des formulaires
-            $evts[] = [
-                'id' => $event->getId(),
-                'titre_calendrier' => htmlspecialchars($event->getTitreCalendrier()),
-                'debut_calendrier' => $event->getDebutCalendrier()->format('Y-m-d H:i:s'),
-                'fin_calendrier' => $event->getFinCalendrier()->format('Y-m-d H:i:s'),
-                'description_calendrier' => $event->getDescriptionCalendrier(),
-                'couleur_fond_calendrier' => $event->getCouleurFondCalendrier(),
-                'couleur_bordure_calendrier' => $event->getCouleurBordureCalendrier(),
-                'couleur_texte_calendrier' => $event->getCouleurTexteCalendrier(),
-                'places_disponibles_calendrier' => $event->getPlacesDisponiblesCalendrier(),
-            ];
-        }
-
-        $pensionnaires = $pensionnairesRepository->findAll();
-
-        return $this->render('evenementiel/index.html.twig', [
-            'controller_name' => 'EvenementielController',
-            'events' => $evts,
-            'pensionnaires' => $pensionnaires,
+    #[Route('/', name: 'app_benevolat_index', methods: ['GET'])]
+    public function index(BenevolatRepository $benevolatRepository): Response
+    {
+        return $this->render('benevolat/index.html.twig', [
+            'benevolats' => $benevolatRepository->findAll(),
         ]);
     }
 
-    #[Route('/benevolat/reserver/{id}', name: 'app_benevolat_reserver')]
-    public function reserver(Request $request,PensionnairesRepository $pensionnairesRepository,CalendrierRepository $calendrierRepo,
-    ReservationService $reservationService,$id): Response {
-
-        // Trouve l'événement à réserver par son ID
-        $calendrier = $calendrierRepo->find($id);
-
-        // Crée une nouvelle réservation
-        $reservation = new Formulaires();
-        $form = $this->createForm(FormulairesType::class, $reservation);
+    #[Route('/new', name: 'app_benevolat_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $benevolat = new Benevolat();
+        $form = $this->createForm(BenevolatType::class, $benevolat);
         $form->handleRequest($request);
-    
-        // Vérifie si le formulaire a été soumis et est valide
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                // Tente d'effectuer la réservation
-                $reservationService->effectuerReservation($calendrier, $reservation);
-                // Message de succès
-                $this->addFlash('success', 'Réservation effectuée avec succès.');
-            } catch (\Exception $e) {
-                // Gère les erreurs éventuelles
-                $this->addFlash('error', $e->getMessage());
-            }
-            // Redirige vers la page principale de l'événementiel
-            return $this->redirectToRoute('app_evenementiel');
-        }
-        $pensionnaires = $pensionnairesRepository->findAll();
 
-        return $this->render('calendrier/new.html.twig', [
-            'form' => $form->createView(),
-            'pensionnaires' => $pensionnaires,
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($benevolat);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_benevolat_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('benevolat/new.html.twig', [
+            'benevolat' => $benevolat,
+            'form' => $form,
         ]);
+    }
+
+    #[Route('/{id}', name: 'app_benevolat_show', methods: ['GET'])]
+    public function show(Benevolat $benevolat): Response
+    {
+        return $this->render('benevolat/show.html.twig', [
+            'benevolat' => $benevolat,
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: 'app_benevolat_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Benevolat $benevolat, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(BenevolatType::class, $benevolat);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_benevolat_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('benevolat/edit.html.twig', [
+            'benevolat' => $benevolat,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_benevolat_delete', methods: ['POST'])]
+    public function delete(Request $request, Benevolat $benevolat, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$benevolat->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($benevolat);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_benevolat_index', [], Response::HTTP_SEE_OTHER);
     }
 }

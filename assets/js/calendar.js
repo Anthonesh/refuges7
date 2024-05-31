@@ -1,3 +1,5 @@
+//Reservation évènements
+
 // Attendre que le DOM soit chargé
 document.addEventListener('DOMContentLoaded', function() {
     // Sélection de du calendrier via l'ID
@@ -74,5 +76,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     calendar.render();
+
+//
 });
+
 

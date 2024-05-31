@@ -31,10 +31,8 @@ class DonsController extends AbstractController
     
         // Vérification si le formulaire a été soumis et est valide.
         if ($form->isSubmitted() && $form->isValid()) {
-            // Nettoyer les données du formulaire
-            $cleanedData = $this->inputCleanerService->cleanInput($form->getData());
-            // Stocker les données du formulaire dans la session.
-            $request->getSession()->set('donsFormData', $cleanedData);
+  // Stocker les données du formulaire dans la session.
+  $request->getSession()->set('donsFormData', $form->getData());
     
             // Redirection vers la page de paiement.
             return $this->redirectToRoute('app_paiement');

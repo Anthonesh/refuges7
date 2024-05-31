@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Formulaires;
-use App\Form\Formulaires1Type;
+use App\Form\FormulairesEvenementielType;
 use App\Repository\CalendrierRepository;
 use App\Repository\FormulairesRepository;
 use App\Repository\PensionnairesRepository;
@@ -31,11 +31,11 @@ class FormulairesEvenementielController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, CalendrierRepository $calendrierRepository,PensionnairesRepository $pensionnairesRepository,): Response
     {
         $formulaire = new Formulaires();
-        // ... votre code pour pré-remplir le formulaire ou pour récupérer un formulaire existant ...
+
         $pensionnaires = $pensionnairesRepository->findAll();
 
     
-        $form = $this->createForm(Formulaires1Type::class, $formulaire);
+        $form = $this->createForm(FormulairesEvenementielType::class, $formulaire);
         $form->handleRequest($request);
 
         $eventId = $request->query->get('eventId');
@@ -99,7 +99,7 @@ class FormulairesEvenementielController extends AbstractController
     #[Route('/{id}/edit', name: 'app_formulaires_evenementiel_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Formulaires $formulaire, EntityManagerInterface $entityManager, PensionnairesRepository $pensionnairesRepository): Response
     {
-        $form = $this->createForm(Formulaires1Type::class, $formulaire);
+        $form = $this->createForm(FormulairesEvenementielType::class, $formulaire);
         $form->handleRequest($request);
         $pensionnaires = $pensionnairesRepository->findAll();
 

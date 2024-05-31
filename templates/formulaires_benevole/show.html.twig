@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formulaires{% endblock %}
+
+{% block body %}
+    <h1>Formulaires</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ formulaire.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom_formulaire</th>
+                <td>{{ formulaire.nomFormulaire }}</td>
+            </tr>
+            <tr>
+                <th>Prenom_formulaire</th>
+                <td>{{ formulaire.prenomFormulaire }}</td>
+            </tr>
+            <tr>
+                <th>Telephone_formulaire</th>
+                <td>{{ formulaire.telephoneFormulaire }}</td>
+            </tr>
+            <tr>
+                <th>Email_formulaire</th>
+                <td>{{ formulaire.emailFormulaire }}</td>
+            </tr>
+            <tr>
+                <th>Numero_rue_formulaire</th>
+                <td>{{ formulaire.numeroRueFormulaire }}</td>
+            </tr>
+            <tr>
+                <th>Rue_formulaire</th>
+                <td>{{ formulaire.rueFormulaire }}</td>
+            </tr>
+            <tr>
+                <th>Code_postal_formulaire</th>
+                <td>{{ formulaire.codePostalFormulaire }}</td>
+            </tr>
+            <tr>
+                <th>Ville_formulaire</th>
+                <td>{{ formulaire.villeFormulaire }}</td>
+            </tr>
+            <tr>
+                <th>Pays_formulaire</th>
+                <td>{{ formulaire.paysFormulaire }}</td>
+            </tr>
+            <tr>
+                <th>Nombre_participants_formulaire</th>
+                <td>{{ formulaire.nombreParticipantsFormulaire }}</td>
+            </tr>
+            <tr>
+                <th>Nom_facturation_formulaire</th>
+                <td>{{ formulaire.nomFacturationFormulaire }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_formulaires_benevole_index') }}">back to list</a>
+
+    <a href="{{ path('app_formulaires_benevole_edit', {'id': formulaire.id}) }}">edit</a>
+
+    {{ include('formulaires_benevole/_delete_form.html.twig') }}
+{% endblock %}

@@ -27,19 +27,19 @@ class Formulaires
     #[ORM\Column(length: 100)]
     private ?string $email_formulaire = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $numero_rue_formulaire = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     private ?string $rue_formulaire = null;
 
-    #[ORM\Column(length: 10)]
+    #[ORM\Column(length: 10,nullable: true)]
     private ?string $code_postal_formulaire = null;
 
-    #[ORM\Column(length: 30)]
+    #[ORM\Column(length: 30,nullable: true)]
     private ?string $ville_formulaire = null;
 
-    #[ORM\Column(length: 30)]
+    #[ORM\Column(length: 30,nullable: true)]
     private ?string $pays_formulaire = null;
 
     #[ORM\ManyToOne(targetEntity: Calendrier::class, inversedBy: 'formulaires')]
@@ -51,6 +51,10 @@ class Formulaires
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $nom_facturation_formulaire = null;
+
+    #[ORM\ManyToOne(targetEntity: Benevolat::class, inversedBy: 'formulaires')]
+    #[ORM\JoinColumn(name: 'benevolat_id', referencedColumnName: 'id_benevolat')]
+    private ?Benevolat $benevolat = null;
 
 
     public function getId(): ?int
@@ -198,6 +202,18 @@ class Formulaires
     public function setNomFacturationFormulaire(?string $nom_facturation_formulaire): static
     {
         $this->nom_facturation_formulaire = $nom_facturation_formulaire;
+
+        return $this;
+    }
+
+    public function getBenevolat(): ?Benevolat
+    {
+        return $this->benevolat;
+    }
+
+    public function setBenevolat(?Benevolat $benevolat): static
+    {
+        $this->benevolat = $benevolat;
 
         return $this;
     }

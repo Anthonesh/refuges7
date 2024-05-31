@@ -2,12 +2,15 @@
 
 namespace App\Form;
 
+use App\Entity\Benevolat;
+use App\Entity\Calendrier;
 use App\Entity\Formulaires;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class Formulaires1Type extends AbstractType
+class FormulairesBenevolatType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -16,12 +19,6 @@ class Formulaires1Type extends AbstractType
             ->add('prenom_formulaire')
             ->add('telephone_formulaire')
             ->add('email_formulaire')
-            ->add('numero_rue_formulaire')
-            ->add('rue_formulaire')
-            ->add('code_postal_formulaire')
-            ->add('ville_formulaire')
-            ->add('pays_formulaire')
-            ->add('nombre_participants_formulaire')
         ;
     }
 
